@@ -39,8 +39,8 @@ function create_csv(){
     },
     nentuki: {
       type: "nentuki",
-      num: 6,
-      strtype: "han",
+      start: '2020/04',
+      end: '2024/03',
     },
     sid: {
       type: "varchar",
@@ -163,7 +163,7 @@ function create_csv(){
     return result
   }
 
-  function getRandomDateTime(startDateTime, endDateTime) {
+  function getRandomDateTime(startDateTime, endDateTime, format='yyyymmddhhMMss') {
     let start = new Date(startDateTime).getTime();
     let end = new Date(endDateTime).getTime();
 
@@ -173,15 +173,21 @@ function create_csv(){
 
     let randomTime = start + Math.random() * (end - start);
     let date = new Date(randomTime);
+    let result= '';
 
-    let yyyy = date.getFullYear();
-    let mm = String(date.getMonth() + 1).padStart(2, '0');
-    let dd = String(date.getDate()).padStart(2, '0');
-    let hh = String(date.getHours()).padStart(2, '0');
-    let mi = String(date.getMinutes()).padStart(2, '0');
-    let ss = String(date.getSeconds()).padStart(2, '0');
-    // 整形して出力
-    let result = `${yyyy}-${mm}-${dd} ${hh}:${mi}:${ss}`;
+    if(format == 'yyyymm'){
+      let yyyy = date.getFullYear();
+      let mm = String(date.getMonth() + 1).padStart(2, '0');
+      result = `${yyyy}${mm}`;
+    }else{
+      let yyyy = date.getFullYear();
+      let mm = String(date.getMonth() + 1).padStart(2, '0');
+      let dd = String(date.getDate()).padStart(2, '0');
+      let hh = String(date.getHours()).padStart(2, '0');
+      let mi = String(date.getMinutes()).padStart(2, '0');
+      let ss = String(date.getSeconds()).padStart(2, '0');
+      result = `${yyyy}-${mm}-${dd} ${hh}:${mi}:${ss}`;
+    }
     return result;
   }
 
@@ -228,17 +234,11 @@ function create_csv(){
           // ### 年月
           // ### 
           }else if(param[key].type === 'nentuki'){
-              let tuki = random(1,12);
-              if(tuki > 9){
-                  rs = String(random(param[key].min, param[key].max)) + String(tuki);
-              }else{
-                  rs = String(random(param[key].min, param[key].max)) + '0' + String(tuki);
-              }
+              rs = getRandomDateTime(param[key].start + '/01', param[key].end + '/01', 'yyyymm');
 
           // ### 日付
           // ### 
           }else if(param[key].type === 'datetime'){
-            // 使用例:
             rs = getRandomDateTime(param[key].start, param[key].end);
 
           // ### head_string

@@ -72,9 +72,12 @@ def: max 10**10 ~ 10**6 + 0.1234
 
 ### type : nentuki
 文字列表記の年月の項目です。
+yyyymm形式で出力します。
 
 ＜追加パラメータ＞
-※varcharと同様
+・start
+・end
+yyyy/mmで指定してください。
 
 ### type : datetime
 日付範囲に対してランダムな日時を生成します。
