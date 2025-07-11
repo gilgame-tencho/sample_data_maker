@@ -245,6 +245,13 @@ function create_csv(){
             let index = i % list.length;
             rs = list[index];
 
+          // ### order_decimal
+          // ### 
+          }else if(param[key].type === 'order_decimal'){
+            let list = param[key].list;
+            let index = i % list.length;
+            rs = list[index];
+
           // ### varchar
           // ### 
           }else{

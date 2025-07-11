@@ -110,3 +110,14 @@ static: "aaa"
 
 ・sort: desk　※未実装
 
+### type : order_decimal ※未実装
+数値を指定値から順番に設定します。
+
+＜追加パラメータ＞
+・start: 0
+・loop_end: 10 （省略可）
+省略した場合、通番でカウントします。
+・count_up: 5　※未実装
+指定値加算でカウントします。
+・sort: desk　※未実装
+
