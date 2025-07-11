@@ -1,0 +1,14 @@
+{
+  "name": "sample_data_maker",
+  "version": "1.0.0",
+  "description": "雑につくってあります。",
+  "main": "convert_xlsx_param.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "xlsx": "^0.18.5"
+  }
+}
