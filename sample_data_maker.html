@@ -12,7 +12,7 @@ function create_csv(){
   const count = 100;
   // const count = 100000;
 
-  // データバリエーション種類数 variation  = 企＊事＊契＊月＊年
+  // データバリエーション種類数
   const variation  = 1200;
   // const variation  = 12000000;
 
@@ -37,139 +37,80 @@ function create_csv(){
   const department_tags = ['事業部','部','センター','グループ','チーム','室','課'];
 
   const param = {
-      ym: {
-          type: "nentuki",
-          num: 6,
-          strtype: "han",
-        },
-        siharai_id: {
-          type: "varchar",
-          num: 20,
-          strtype: "han",
-        },
-        seikyusho_no: {
-          type: "varchar",
-          num: 13,
-          strtype: "han",
-        },
-        kigyo_mei: {
-          type: "company",
-          // num: 30 + 4, //株式会社***ィックゴ*フグ*****ターナ**ナル******グス
-          num: 15 + 4, // ソ***ル*****ラボ***株式会社
-          strtype: "zen",
-        },
-        kigyo_id: {
-          type: "varchar",
-          num: 40,
-          strtype: "han",
-        },
-        jigyosho_mei: {
-          type: "department",
-          num: 30 + 4, //株式会社***ィックゴ*フグ*****ターナ**ナル******グス
-          strtype: "zen",
-        },
-        jigyosho_id: {
-          type: "varchar",
-          num: 40,
-          strtype: "han",
-        },
-        okyaku_no: {
-          type: "varchar",
-          num: 13,
-          strtype: "han",
-        },
-        okyaku_mei: {
-          type: "varchar",
-          num: 96,
-          strtype: "zen",
-        },
-        type_a: {
-          type: "varchar",
-          num: 20,
-          strtype: "han",
-        },
-        type_b: {
-          type: "varchar",
-          num: 3,
-          strtype: "han",
-        },
-        plan_flg: {
-          type: "varchar",
-          num: 2,
-          strtype: "han",
-        },
-        plan_name: {
-          type: "varchar",
-          num: 60,
-          strtype: "zen",
-        },
-        zei: {
-          type: "decimal",
-          num: 4,
-        },
-        gokei: {
-          type: "decimal",
-          num: 5,
-        },
-        syoukei: {
-          type: "decimal",
-          num: 6,
-        },
-        kingaku_a: {
-          type: "decimal",
-          num: 5,
-        },
-        kingaku_b: {
-          type: "decimal",
-          num: 10,
-        },
-        kingaku_c: {
-          type: "decimal",
-        },
-        kingaku_d: {
-          type: "decimal",
-        },
-        kingaku_e: {
-          type: "decimal",
-        },
-        kingaku_f: {
-          type: "decimal",
-        },
-        kingaku_g: {
-          type: "decimal",
-        },
-        kingaku_h: {
-          type: "decimal",
-        },
-        kingaku_h: {
-          type: "decimal",
-        },
-        kingaku_j: {
-          type: "decimal",
-        },
-        bornus_1: {
-          type: "decimal",
-        },
-        bornus_2: {
-          type: "decimal",
-        },
-        category: {
-          type: "varchar",
-          num: 40,
-          strtype: "zen",
-        },
-        waribiki_1: {
-          type: "decimal",
-        },
-        waribiki_2: {
-          type: "decimal",
-        },
-        waribiki_3: {
-          type: "decimal",
-        },
-        waribiki_4: {
-          type: "decimal",
-        },      
+    ym: {
+      type: "nentuki",
+      num: 6,
+      strtype: "han",
+    },
+    sid: {
+      type: "varchar",
+      num: 10,
+      strtype: "han",
+    },
+    resito_no: {
+      type: "varchar",
+      num: 13,
+      strtype: "han",
+    },
+    kigyo_mei: {
+      type: "company",
+      // num: 30 + 4, //株式会社***ィックゴ*フグ*****ターナ**ナル******グス
+      num: 15 + 4, // ソ***ル*****ラボ***株式会社
+      strtype: "zen",
+    },
+    kigyo_id: {
+      type: "varchar",
+      num: 20,
+      strtype: "han",
+    },
+    jigyosho_mei: {
+      type: "department",
+      num: 30 + 4, //株式会社***ィックゴ*フグ*****ターナ**ナル******グス
+      strtype: "zen",
+    },
+    jigyosho_id: {
+      type: "varchar",
+      num: 40,
+      strtype: "han",
+    },
+    kokyaku_no: {
+      type: "varchar",
+      num: 13,
+      strtype: "han",
+    },
+    kokyaku_mei: {
+      type: "varchar",
+      num: 30,
+      strtype: "zen",
+    },
+    type_a: {
+      type: "varchar",
+      num: 20,
+      strtype: "han",
+    },
+    type_b: {
+      type: "varchar",
+      num: 3,
+      strtype: "han",
+    },
+    plan_flg: {
+      type: "varchar",
+      num: 2,
+      strtype: "han",
+    },
+    kingaku_a: {
+      type: "decimal",
+      num: 5,
+    },
+    kingaku_b: {
+      type: "decimal",
+      num: 10,
+    },
+    kingaku_c: {
+      type: "decimal",
+      max: 100,
+      min: 10
+    },
   }
 
   let header = Object.keys(param);
@@ -178,7 +119,7 @@ function create_csv(){
   // fs.appendFile(outfile, header.join(',') + '\n', (err)=>{});
   let data = [];
 
-  let company_max = variation / (1 * 2 * 1 * 12 * 5); // 企＊事＊契＊月＊年
+  let company_max = variation / (1 * 2 * 1 * 12 * 5);
   console.log(`company_max: ${company_max}`);
 
   data.push(header);
@@ -186,9 +127,8 @@ function create_csv(){
   const deci_min = 1 * 10 ** 6;
   const deci_max = 1 * 10 ** 10;
 
-  function random(min, max, scal=0) {
-      // return Math.floor(Math.random() * (max - min + 1) * (10 ** 4))/(10 ** 4) + min;
-      if(scal > 0){
+  function random(min, max, point=0) {
+      if(point > 0){
           return Math.floor(Math.random() * (max - min + 1)) + min + 0.1234;
       }else{
           return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -218,17 +158,24 @@ function create_csv(){
               rs = i;
           }else if(param[key].type === 'decimal'){
             let log = document.getElementById('log');
-            let local_max;
-            let local_min;
+            let local_max = deci_max;
+            let local_min = deci_min;
+            let local_point = 0;
+            if(param[key].max && param[key].max > 0){
+              local_max = param[key].max;
+            }
+            if(param[key].min && param[key].min > 0){
+              local_min = param[key].min;
+            }
+            if(param[key].point && param[key].point > 0){
+              local_point = param[key].point;
+            }
             if(param[key].num && param[key].num > 0){
               local_min = 1 * 10 ** (param[key].num - 3);
               if(local_min < 0){ local_min = 0 }
               local_max = 1 * 10 ** (param[key].num) - 1;
-              rs = random(local_min, local_max,4);
-            }else{
-              rs = random(deci_min, deci_max, 4);
-              // rs = random(param[key].range.min, param[key].range.max);
             }
+            rs = random(local_min, local_max, local_point);
             if(key === 'gokei'){
               log.innerHTML = `key: ${key}, param[key].num: ${param[key].num}, max: ${local_max}, rs: ${rs}`;
             }
