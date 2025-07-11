@@ -154,8 +154,12 @@ function create_csv(){
       header.forEach((key)=>{
           let rs;
           // rs = Math.round(Math.random()*100,5);
+          // ### Header No.
           if(key === 'No'){
               rs = i;
+          
+          // ### 数値
+          // ### 
           }else if(param[key].type === 'decimal'){
             let log = document.getElementById('log');
             let local_max = deci_max;
@@ -179,6 +183,9 @@ function create_csv(){
             if(key === 'gokei'){
               log.innerHTML = `key: ${key}, param[key].num: ${param[key].num}, max: ${local_max}, rs: ${rs}`;
             }
+
+          // ### 年月
+          // ### 
           }else if(param[key].type === 'nentuki'){
               let tuki = random(1,12);
               if(tuki > 9){
@@ -186,6 +193,9 @@ function create_csv(){
               }else{
                   rs = String(random(2017, 2021)) + '0' + String(tuki);
               }
+
+          // ### 会社名
+          // ### 
           }else if(param[key].type === 'company'){
             rs = '';
             for(let j=0; j<param[key].num - kabu_tag.length; j++){
@@ -197,14 +207,18 @@ function create_csv(){
             }else{
               rs = companys[random(0, companys.length-1)];
             }
+          // ### 部署名
+          // ### 
           }else if(param[key].type === 'department'){
             rs = '';
             for(let j=0; j<param[key].num - 4; j++){
                 rs += chars2[random(0, chars2.length-1)];
             }
             rs = random_department(rs);
+
+          // ### 
+          // ### varchar
           }else{
-              // ### varchar
               if(param[key].strtype === 'han'){
                   rs = '';
                   for(let j=0; j<param[key].num; j++){
