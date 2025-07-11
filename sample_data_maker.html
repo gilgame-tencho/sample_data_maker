@@ -3,6 +3,9 @@
         hello.
         <div id="log">aaa</div>
     </body>
+<script src="masters.js"></script>
+<script src="param.js"></script>
+
 <script>
 function create_csv(){
 
@@ -10,114 +13,38 @@ function create_csv(){
 
   // 生成レコード件数 count
   const count = 100;
-  // const count = 100000;
 
   // データバリエーション種類数
   const variation  = 1200;
-  // const variation  = 12000000;
 
-  // ### ------------ ###
+  const company_max = variation / (1 * 2 * 1 * 12 * 5);
 
-  // const fs = require('fs')
-  // const yaml = require('yaml')
+  const kabu_tag = 'テスト株式会社';
 
-  // const param = fs.readFileSync('./param.yml', 'utf-8');
-  // const param = yaml.parse(fs.readFileSync('./param.yml', 'utf-8'));
-  // let outfile = './output.csv';
- 
-  //ファイル名の指定
-  let file_name   = `test_${count}.csv`;
-
-  let companys = [];
   const department_tags = ['事業部','部','センター','グループ','チーム','室','課'];
 
-  const param = {
-    nendo: {
-      type: "year",
-      min: 2020,
-      max: 2020 + 11,
-    },
-    nentuki: {
-      type: "nentuki",
-      start: '2020/04',
-      end: '2024/03',
-    },
-    sid: {
-      type: "decimal_order",
-      start: 1,
-      end: 10,
-    },
-    class: {
-      type: "list_order",
-      list: ["one","two","three","four","five","six",],
-    },
-    kigyo_mei: {
-      type: "company",
-      num: 15 + 4,
-      strtype: "zen",
-    },
-    juwtstreem: {
-      type: "head_string",
-      head: "RFP303A",
-      num: 5,
-      strtype: "han",
-    },
-    kokyaku_no: {
-      type: "varchar",
-      num: 13,
-      strtype: "han",
-    },
-    kokyaku_mei: {
-      type: "varchar",
-      num: 30,
-      strtype: "zen",
-    },
-    type_a: {
-      type: "select",
-      select: ["a","b","c"],
-    },
-    type_b: {
-      type: "static",
-      static: "KOTEI"
-    },
-    plan_flg: {
-      type: "varchar",
-      num: 2,
-      strtype: "han",
-    },
-    kingaku_a: {
-      type: "decimal",
-      num: 5,
-    },
-    kingaku_b: {
-      type: "decimal",
-      num: 10,
-    },
-    kingaku_c: {
-      type: "decimal",
-      max: 100,
-      min: 10
-    },
-    update_date: {
-      type: "datetime",
-      start: "2024-01-01T00:00:00",
-      end: "2024-06-30T23:59:59"
-    },
+  const deci_min = 1 * 10 ** 6;
+  const deci_max = 1 * 10 ** 10;
+
+  //ファイル名の指定
+  const file_name   = `test_${count}.csv`;
+
+  const chars = {
+    han : ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X',],
+    zen : ['あ','い','う','え','お','か','き','く','け','こ','さ','し','す','せ','そ','た','ち','つ','て','と','な','に','ぬ','ね','の','は','ひ','ふ','へ','ほ','ま','み','む','め','も','ら','り','る','れ','ろ','わ','を','ん','子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥','甲','乙','丙','丁','戊','己','庚','辛','壬','癸','臨','兵','闘','者','皆','陣','列','在','前',],
+    mat : ['0','1','2','3','4','5','6','7','8','9'],
+    han_mat : ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X',],
   }
 
+  // ### Program param, and functions. ###
   let header = Object.keys(param);
   header.unshift('No');
   console.log(header.join(','));
   // [coution] No column is no body and no object.
   let data = [];
-
-  let company_max = variation / (1 * 2 * 1 * 12 * 5);
-  console.log(`company_max: ${company_max}`);
-
   data.push(header);
 
-  const deci_min = 1 * 10 ** 6;
-  const deci_max = 1 * 10 ** 10;
+  let companys = [];
 
   function random(min, max, point=0) {
       if(point > 0){
@@ -127,7 +54,6 @@ function create_csv(){
       }
   }
 
-  const kabu_tag = 'テスト株式会社';
   function random_kabu(name){
     if(Math.random() > 0.5){
       return name + kabu_tag;
@@ -139,13 +65,6 @@ function create_csv(){
   function random_department(name){
     let tag = department_tags[random(0, department_tags.length-1)];
     return name + tag;
-  }
-
-  const chars = {
-    han : ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X',],
-    zen : ['あ','い','う','え','お','か','き','く','け','こ','さ','し','す','せ','そ','た','ち','つ','て','と','な','に','ぬ','ね','の','は','ひ','ふ','へ','ほ','ま','み','む','め','も','ら','り','る','れ','ろ','わ','を','ん','子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥','甲','乙','丙','丁','戊','己','庚','辛','壬','癸','臨','兵','闘','者','皆','陣','列','在','前',],
-    mat : ['0','1','2','3','4','5','6','7','8','9'],
-    han_mat : ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X',],
   }
 
   function random_string(char_type, count){
@@ -208,10 +127,12 @@ function create_csv(){
     ){
       param[key].orderid = orders_id;
       orders.push({start: param[key].start, count: 0});
+
       orders_id += 1;
     }
   });
 
+  // ## generate: main data
   for(let i=0; i<count; i++){
       let row = [];
       header.forEach((key)=>{
@@ -313,9 +234,7 @@ function create_csv(){
           // ### decimal_order
           // ### 
           }else if(param[key].type === 'decimal_order'){
-            let list = param[key].list;
-            let index = i % list.length;
-            rs = list[index];
+            rs = "comming soon";
 
           // ### varchar
           // ### 
