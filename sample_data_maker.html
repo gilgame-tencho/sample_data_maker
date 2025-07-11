@@ -37,7 +37,12 @@ function create_csv(){
   const department_tags = ['事業部','部','センター','グループ','チーム','室','課'];
 
   const param = {
-    ym: {
+    nendo: {
+      type: "year",
+      min: 2020,
+      max: 2020 + 11,
+    },
+    nentuki: {
       type: "nentuki",
       num: 6,
       strtype: "han",
@@ -47,10 +52,9 @@ function create_csv(){
       num: 10,
       strtype: "han",
     },
-    resito_no: {
-      type: "varchar",
-      num: 13,
-      strtype: "han",
+    class: {
+      type: "order_list",
+      list: ["one","two","three","four","five","six",],
     },
     kigyo_mei: {
       type: "company",
@@ -182,6 +186,11 @@ function create_csv(){
               log.innerHTML = `key: ${key}, param[key].num: ${param[key].num}, max: ${local_max}, rs: ${rs}`;
             }
 
+          // ### year
+          // ### 
+          }else if(param[key].type === 'year'){
+            rs = String(random(param[key].min, param[key].max))
+
           // ### 年月
           // ### 
           }else if(param[key].type === 'nentuki'){
@@ -228,6 +237,13 @@ function create_csv(){
             }else{
               rs = "STATIC";
             }
+
+          // ### order_list
+          // ### 
+          }else if(param[key].type === 'order_list'){
+            let list = param[key].list;
+            let index = i % list.length;
+            rs = list[index];
 
           // ### varchar
           // ### 
