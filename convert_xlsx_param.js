@@ -1,7 +1,8 @@
-const xlsx = require('xlsx');
+const ExcelJS = require('exceljs');
 const path = require('path');
+const fs = require('fs');
 
-// コマンドライン引数からファイルパスを取得
+// ファイルパスをコマンドライン引数から取得
 const inputFile = process.argv[2];
 
 if (!inputFile) {
@@ -9,36 +10,53 @@ if (!inputFile) {
   process.exit(1);
 }
 
-try {
-  // ファイルを読み込み
-  const workbook = xlsx.readFile(path.resolve(inputFile));
-  const sheetName = workbook.SheetNames[0];
-  const sheet = workbook.Sheets[sheetName];
-
-  // シートをJSON配列に変換
-  const data = xlsx.utils.sheet_to_json(sheet);
-  const result = {};
-
-  data.forEach(row => {
-    const key = row['key'];
-    if (!key) return;
-
-    const entry = {};
-    Object.keys(row).forEach(col => {
-      if (col === 'key') return;
-      const value = row[col];
-      if (value !== null && value !== undefined && value !== '') {
-        entry[col] = value;
-      }
-    });
-
-    result[key] = entry;
-  });
-
-  // 結果を出力
-  console.log(JSON.stringify(result, null, 2));
-
-} catch (err) {
-  console.error('❌ ファイルの読み込みに失敗しました:', err.message);
+if (!fs.existsSync(inputFile)) {
+  console.error('❌ 指定されたファイルが存在しません:', inputFile);
   process.exit(1);
 }
+
+async function convertExcelToJson(filePath) {
+  const workbook = new ExcelJS.Workbook();
+  await workbook.xlsx.readFile(filePath);
+
+  const worksheet = workbook.worksheets[0]; // 最初のシートを使用
+  const result = {};
+
+  const header = [];
+  worksheet.eachRow((row, rowNumber) => {
+    const values = row.values.slice(1); // 先頭はnullなので無視
+
+    if (rowNumber === 1) {
+      // ヘッダー行
+      values.forEach((cell, idx) => {
+        header[idx] = String(cell).trim();
+      });
+    } else {
+      const rowObj = {};
+      let keyValue = null;
+
+      values.forEach((cell, idx) => {
+        const colName = header[idx];
+        if (!colName) return;
+
+        const value = cell;
+        if (colName === 'key') {
+          keyValue = String(value).trim();
+        } else if (value !== null && value !== undefined && value !== '') {
+          rowObj[colName] = value;
+        }
+      });
+
+      if (keyValue) {
+        result[keyValue] = rowObj;
+      }
+    }
+  });
+
+  console.log(JSON.stringify(result, null, 2));
+}
+
+convertExcelToJson(inputFile).catch(err => {
+  console.error('❌ エラーが発生しました:', err.message);
+  process.exit(1);
+});
