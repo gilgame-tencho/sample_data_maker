@@ -108,7 +108,7 @@ function create_csv(){
   let header = Object.keys(param);
   header.unshift('No');
   console.log(header.join(','));
-  // fs.appendFile(outfile, header.join(',') + '\n', (err)=>{});
+  // [coution] No column is no body and no object.
   let data = [];
 
   let company_max = variation / (1 * 2 * 1 * 12 * 5);
@@ -200,8 +200,11 @@ function create_csv(){
   let orders_id = 0;
   header.forEach((key)=>{
     if(
-      (param[key].type === 'nentuki_order') ||
-      (param[key].type === 'decimal_order')
+      param[key] &&
+      (
+      param[key].type === 'nentuki_order' ||
+      param[key].type === 'decimal_order'
+      )
     ){
       param[key].orderid = orders_id;
       orders.push({start: param[key].start, count: 0});
@@ -213,7 +216,6 @@ function create_csv(){
       let row = [];
       header.forEach((key)=>{
           let rs;
-          // rs = Math.round(Math.random()*100,5);
           // ### Header No.
           if(key === 'No'){
               rs = i;
