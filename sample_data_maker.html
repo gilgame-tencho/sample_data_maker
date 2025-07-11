@@ -43,12 +43,12 @@ function create_csv(){
       end: '2024/03',
     },
     sid: {
-      type: "varchar",
-      num: 10,
-      strtype: "han",
+      type: "decimal_order",
+      start: 1,
+      end: 10,
     },
     class: {
-      type: "order_list",
+      type: "list_order",
       list: ["one","two","three","four","five","six",],
     },
     kigyo_mei: {
@@ -191,6 +191,24 @@ function create_csv(){
     return result;
   }
 
+  // ###         ################################
+  // ### Main    ################################
+  // ###         ################################
+
+  // ## initial generate: order list
+  let orders = [];
+  let orders_id = 0;
+  header.forEach((key)=>{
+    if(
+      (param[key].type === 'nentuki_order') ||
+      (param[key].type === 'decimal_order')
+    ){
+      param[key].orderid = orders_id;
+      orders.push({start: param[key].start, count: 0});
+      orders_id += 1;
+    }
+  });
+
   for(let i=0; i<count; i++){
       let row = [];
       header.forEach((key)=>{
@@ -283,16 +301,16 @@ function create_csv(){
               rs = "STATIC";
             }
 
-          // ### order_list
+          // ### list_order
           // ### 
-          }else if(param[key].type === 'order_list'){
+          }else if(param[key].type === 'list_order'){
             let list = param[key].list;
             let index = i % list.length;
             rs = list[index];
 
-          // ### order_decimal
+          // ### decimal_order
           // ### 
-          }else if(param[key].type === 'order_decimal'){
+          }else if(param[key].type === 'decimal_order'){
             let list = param[key].list;
             let index = i % list.length;
             rs = list[index];

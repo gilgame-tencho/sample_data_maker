@@ -79,6 +79,16 @@ yyyymm形式で出力します。
 ・end
 yyyy/mmで指定してください。
 
+### type : nentuki_order
+指定範囲の年月で順次出力します。
+yyyymm形式で出力します。
+
+＜追加パラメータ＞
+・start
+・end
+yyyy/mmで指定してください。
+
+
 ### type : datetime
 日付範囲に対してランダムな日時を生成します。
 
@@ -121,7 +131,7 @@ select: ["a", "b", "c"]
 static: "aaa"
 固定値を設定してください。
 
-### type : order_list
+### type : list_order
 リスト内の選択肢を順番に利用します。
 
 ＜追加パラメータ＞
@@ -129,12 +139,12 @@ static: "aaa"
 
 ・sort: desk　※未実装
 
-### type : order_decimal ※未実装
+### type : decimal_order ※未実装
 数値を指定値から順番に設定します。
 
 ＜追加パラメータ＞
 ・start: 0
-・loop_end: 10 （省略可）
+・end: 10 （省略可）
 省略した場合、通番でカウントします。
 ・count_up: 5　※未実装
 指定値加算でカウントします。
