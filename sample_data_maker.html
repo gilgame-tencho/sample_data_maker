@@ -230,9 +230,9 @@ function create_csv(){
           }else if(param[key].type === 'nentuki'){
               let tuki = random(1,12);
               if(tuki > 9){
-                  rs = String(random(2017, 2021)) + String(tuki);
+                  rs = String(random(param[key].min, param[key].max)) + String(tuki);
               }else{
-                  rs = String(random(2017, 2021)) + '0' + String(tuki);
+                  rs = String(random(param[key].min, param[key].max)) + '0' + String(tuki);
               }
 
           // ### 日付
