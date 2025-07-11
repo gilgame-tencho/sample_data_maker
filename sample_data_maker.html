@@ -84,14 +84,12 @@ function create_csv(){
       strtype: "zen",
     },
     type_a: {
-      type: "varchar",
-      num: 20,
-      strtype: "han",
+      type: "select",
+      select: ["a","b","c"],
     },
     type_b: {
-      type: "varchar",
-      num: 3,
-      strtype: "han",
+      type: "static",
+      static: "KOTEI"
     },
     plan_flg: {
       type: "varchar",
@@ -216,8 +214,23 @@ function create_csv(){
             }
             rs = random_department(rs);
 
+          // ### 任意選択肢
           // ### 
+          }else if(param[key].type === 'select'){
+            let sel = param[key].select;
+            rs = sel[random(0, sel.length-1)];
+
+          // ### 固定
+          // ### 
+          }else if(param[key].type === 'static'){
+            if(param[key].static){
+              rs = param[key].static
+            }else{
+              rs = "STATIC";
+            }
+
           // ### varchar
+          // ### 
           }else{
               if(param[key].strtype === 'han'){
                   rs = '';
