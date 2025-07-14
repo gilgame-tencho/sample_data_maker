@@ -136,7 +136,10 @@ function create_csv(){
     if(!param.column[key]){
       return;
     }
-    if(param.column[key].type === 'decimal_order'){
+    if(
+      param.column[key].type === 'decimal_order' ||
+      param.column[key].type === 'list_order'
+    ){
       param.column[key].orderid = orderid;
       let start = 0;
       if(param.column[key].start){
@@ -150,7 +153,6 @@ function create_csv(){
     if(param.column[key].type === 'nentuki_order'){
       param.column[key].orderid = orderid;
 
-      console.log('header');
       let count_date = new Date(param.column[key].start);
       orders.push({start: param.column[key].start, count_date: count_date});
       param.column[key].start_date = new Date(param.column[key].start);
@@ -309,9 +311,12 @@ function create_csv(){
           // ### list_order
           // ### 
           }else if(param.column[key].type === 'list_order'){
+            let list_counter = orders[param.column[key].orderid].count;
             let list = param.column[key].list;
-            let index = i % list.length;
+            let index = list_counter % list.length;
             rs = list[index];
+
+            orders[param.column[key].orderid].count += 1;
 
           // ### decimal_order
           // ### 
