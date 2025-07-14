@@ -37,7 +37,7 @@ function create_csv(){
   }
 
   // ### Program param, and functions. ###
-  let header = Object.keys(param);
+  let header = Object.keys(param.column);
   header.unshift('No');
   console.log(header.join(','));
   // [coution] No column is no body and no object.
@@ -114,27 +114,28 @@ function create_csv(){
   // ### Main    ################################
   // ###         ################################
 
-  // ## initial generate: order list
+  // ## generate: order list
   let orders = [];
   let orderid = 0;
   header.forEach((key)=>{
     if(
-      param[key] &&
+      param.column[key] &&
       (
-      param[key].type === 'nentuki_order' ||
-      param[key].type === 'decimal_order'
+      param.column[key].type === 'nentuki_order' ||
+      param.column[key].type === 'decimal_order'
       )
     ){
-      param[key].orderid = orderid;
+      param.column[key].orderid = orderid;
       let start = 0;
-      if(param[key].start){
-        start = param[key].start;
+      if(param.column[key].start){
+        start = param.column[key].start;
       }
-      orders.push({start: param[key].start, count: start});
+      orders.push({start: param.column[key].start, count: start});
 
       orderid += 1;
     }
   });
+  header.forEach
 
   // ## generate: main data
   for(let i=0; i<count; i++){
@@ -147,55 +148,55 @@ function create_csv(){
           
           // ### 数値
           // ### 
-          }else if(param[key].type === 'decimal'){
+          }else if(param.column[key].type === 'decimal'){
             let log = document.getElementById('log');
             let local_max = deci_max;
             let local_min = deci_min;
             let local_point = 0;
-            if(param[key].max && param[key].max > 0){
-              local_max = param[key].max;
+            if(param.column[key].max && param.column[key].max > 0){
+              local_max = param.column[key].max;
             }
-            if(param[key].min && param[key].min > 0){
-              local_min = param[key].min;
+            if(param.column[key].min && param.column[key].min > 0){
+              local_min = param.column[key].min;
             }
-            if(param[key].point && param[key].point > 0){
-              local_point = param[key].point;
+            if(param.column[key].point && param.column[key].point > 0){
+              local_point = param.column[key].point;
             }
-            if(param[key].num && param[key].num > 0){
-              local_min = 1 * 10 ** (param[key].num - 3);
+            if(param.column[key].num && param.column[key].num > 0){
+              local_min = 1 * 10 ** (param.column[key].num - 3);
               if(local_min < 0){ local_min = 0 }
-              local_max = 1 * 10 ** (param[key].num) - 1;
+              local_max = 1 * 10 ** (param.column[key].num) - 1;
             }
             rs = random(local_min, local_max, local_point);
             if(key === 'gokei'){
-              log.innerHTML = `key: ${key}, param[key].num: ${param[key].num}, max: ${local_max}, rs: ${rs}`;
+              log.innerHTML = `key: ${key}, param.column[key].num: ${param.column[key].num}, max: ${local_max}, rs: ${rs}`;
             }
 
           // ### year
           // ### 
-          }else if(param[key].type === 'year'){
-            rs = String(random(param[key].min, param[key].max))
+          }else if(param.column[key].type === 'year'){
+            rs = String(random(param.column[key].min, param.column[key].max))
 
           // ### 年月
           // ### 
-          }else if(param[key].type === 'nentuki'){
-              rs = getRandomDateTime(param[key].start + '/01', param[key].end + '/01', 'yyyymm');
+          }else if(param.column[key].type === 'nentuki'){
+              rs = getRandomDateTime(param.column[key].start + '/01', param.column[key].end + '/01', 'yyyymm');
 
           // ### 日付
           // ### 
-          }else if(param[key].type === 'datetime'){
-            rs = getRandomDateTime(param[key].start, param[key].end);
+          }else if(param.column[key].type === 'datetime'){
+            rs = getRandomDateTime(param.column[key].start, param.column[key].end);
 
           // ### head_string
           // ### 
-          }else if(param[key].type === 'head_string'){
-            rs = param[key].head + random_string(param[key].strtype, param[key].num);
+          }else if(param.column[key].type === 'head_string'){
+            rs = param.column[key].head + random_string(param.column[key].strtype, param.column[key].num);
 
           // ### 会社名
           // ### 
-          }else if(param[key].type === 'company'){
+          }else if(param.column[key].type === 'company'){
             rs = '';
-            for(let j=0; j<param[key].num - kabu_tag.length; j++){
+            for(let j=0; j<param.column[key].num - kabu_tag.length; j++){
                 rs += chars.zen[random(0, chars.zen.length-1)];
             }
             rs = random_kabu(rs);
@@ -206,53 +207,53 @@ function create_csv(){
             }
           // ### 部署名
           // ### 
-          }else if(param[key].type === 'department'){
+          }else if(param.column[key].type === 'department'){
             rs = '';
-            for(let j=0; j<param[key].num - 4; j++){
+            for(let j=0; j<param.column[key].num - 4; j++){
                 rs += chars.zen[random(0, chars.zen.length-1)];
             }
             rs = random_department(rs);
 
           // ### 任意選択肢
           // ### 
-          }else if(param[key].type === 'select'){
-            let sel = param[key].select;
+          }else if(param.column[key].type === 'select'){
+            let sel = param.column[key].select;
             rs = sel[random(0, sel.length-1)];
 
           // ### 固定
           // ### 
-          }else if(param[key].type === 'static'){
-            if(param[key].static){
-              rs = param[key].static
+          }else if(param.column[key].type === 'static'){
+            if(param.column[key].static){
+              rs = param.column[key].static
             }else{
               rs = "STATIC";
             }
 
           // ### list_order
           // ### 
-          }else if(param[key].type === 'list_order'){
-            let list = param[key].list;
+          }else if(param.column[key].type === 'list_order'){
+            let list = param.column[key].list;
             let index = i % list.length;
             rs = list[index];
 
           // ### decimal_order
           // ### 
-          }else if(param[key].type === 'decimal_order'){
+          }else if(param.column[key].type === 'decimal_order'){
             let count_up = 1;
-            if(param[key].count_up){
-              count_up = param[key].count_up;
+            if(param.column[key].count_up){
+              count_up = param.column[key].count_up;
             }
-            rs = orders[param[key].orderid].count;
+            rs = orders[param.column[key].orderid].count;
 
-            orders[param[key].orderid].count += count_up;
-            if(param[key].end && param[key].end < orders[param[key].orderid].count){
-              orders[param[key].orderid].count = param[key].start;
+            orders[param.column[key].orderid].count += count_up;
+            if(param.column[key].end && param.column[key].end < orders[param.column[key].orderid].count){
+              orders[param.column[key].orderid].count = param.column[key].start;
             }
 
           // ### varchar
           // ### 
           }else{
-            rs = random_string(param[key].strtype, param[key].num);
+            rs = random_string(param.column[key].strtype, param.column[key].num);
           }
           // row.push(String(rs).substring(0,));
           row.push(rs);
