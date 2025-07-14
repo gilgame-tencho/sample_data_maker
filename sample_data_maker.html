@@ -311,12 +311,19 @@ function create_csv(){
           // ### list_order
           // ### 
           }else if(param.column[key].type === 'list_order'){
-            let list_counter = orders[param.column[key].orderid].count;
+            let index = orders[param.column[key].orderid].count;
             let list = param.column[key].list;
-            let index = list_counter % list.length;
+            // let index = list_counter % list.length;
             rs = list[index];
 
-            orders[param.column[key].orderid].count += 1;
+            if(codependChek(key)){
+              index += 1;
+              if(index >= list.length){
+                index = 0;
+                carryForward(key);
+              }
+              orders[param.column[key].orderid].count = index;
+            }
 
           // ### decimal_order
           // ### 
