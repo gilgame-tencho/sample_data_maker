@@ -1,6 +1,7 @@
 
 const param = {
   common: {
+    count: 100,
     codepends_list : ['nentuki', 'class']
   },
   column: {

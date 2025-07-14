@@ -12,7 +12,7 @@ function create_csv(){
   // ### 基本パラメータ ###
 
   // 生成レコード件数 count
-  const count = 100;
+  const GCount = param.common.count;
 
   // データバリエーション種類数
   const variation  = 1200;
@@ -27,7 +27,7 @@ function create_csv(){
   const deci_max = 1 * 10 ** 10;
 
   //ファイル名の指定
-  const file_name   = `test_${count}.csv`;
+  const file_name   = `test_${GCount}.csv`;
 
   const chars = {
     han : ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X',],
@@ -199,7 +199,7 @@ function create_csv(){
   }
 
   // ## generate: main data
-  for(let i=0; i<count; i++){
+  for(let i=0; i<GCount; i++){
       let row = [];
       header.forEach((key)=>{
           let rs;
