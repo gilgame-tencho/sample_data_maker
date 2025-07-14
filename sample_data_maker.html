@@ -161,7 +161,40 @@ function create_csv(){
       orderid += 1;
     }
   });
-  // header.forEach
+  let codepends = {
+    list: [],
+    counter: [],
+  };
+  if(param.common && param.common.codepends_list){
+    codepends.list = param.common.codepends_list;
+    let i = 0;
+    codepends.list.forEach((key)=>{
+      codepends.counter.push(0);
+      param.column[key].codependsid = i;
+      i++;
+    });
+    codepends.counter[0] = 1;
+  }
+  console.log(codepends);
+
+  function codependChek(key){
+    let i = codepends.list.indexOf(key);
+    let flg = codepends.counter[i] == 1;
+    if(flg && i > 0){
+      codepends.counter[i] = 0;
+    }
+    return flg;
+  }
+
+  function carryForward(key){
+    let i = codepends.list.indexOf(key) + 1;
+    if(i > codepends.list.length + 1){
+      // carryOver
+    }else{
+      codepends.counter[i] = 1;
+    }
+    console.log(codepends.counter);
+  }
 
   // ## generate: main data
   for(let i=0; i<count; i++){
@@ -216,10 +249,14 @@ function create_csv(){
 
             let next_month_date = getNextMonthDate(date);
 
-            if(next_month_date > param.column[key].end_date){
-              orders[param.column[key].orderid].count_date = param.column[key].start_date;
-            }else{
-              orders[param.column[key].orderid].count_date = next_month_date;
+            if(codependChek(key)){
+              if(next_month_date > param.column[key].end_date){
+                orders[param.column[key].orderid].count_date = param.column[key].start_date;
+                carryForward(key);
+                // count++
+              }else{
+                orders[param.column[key].orderid].count_date = next_month_date;
+              }
             }
 
           // ### 日付

@@ -50,6 +50,10 @@ codepends_list : ['column1', 'column2',]
 | 5 | c | 2 |
 | 6 | a | 1 |
 
+```
+codepends_list : ['y', 'x',] //Yが１桁目、Xが２桁目扱いとなる
+```
+
 ## culumn
 
 カラム項目とその設定内容を指定します。
