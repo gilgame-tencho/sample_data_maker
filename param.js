@@ -14,6 +14,7 @@ sid: {
     type: "decimal_order",
     start: 1,
     end: 10,
+    count_up: 2,
 },
 class: {
     type: "list_order",

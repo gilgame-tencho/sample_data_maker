@@ -116,7 +116,7 @@ function create_csv(){
 
   // ## initial generate: order list
   let orders = [];
-  let orders_id = 0;
+  let orderid = 0;
   header.forEach((key)=>{
     if(
       param[key] &&
@@ -125,10 +125,14 @@ function create_csv(){
       param[key].type === 'decimal_order'
       )
     ){
-      param[key].orderid = orders_id;
-      orders.push({start: param[key].start, count: 0});
+      param[key].orderid = orderid;
+      let start = 0;
+      if(param[key].start){
+        start = param[key].start;
+      }
+      orders.push({start: param[key].start, count: start});
 
-      orders_id += 1;
+      orderid += 1;
     }
   });
 
@@ -234,7 +238,16 @@ function create_csv(){
           // ### decimal_order
           // ### 
           }else if(param[key].type === 'decimal_order'){
-            rs = "comming soon";
+            let count_up = 1;
+            if(param[key].count_up){
+              count_up = param[key].count_up;
+            }
+            rs = orders[param[key].orderid].count;
+
+            orders[param[key].orderid].count += count_up;
+            if(param[key].end && param[key].end < orders[param[key].orderid].count){
+              orders[param[key].orderid].count = param[key].start;
+            }
 
           // ### varchar
           // ### 
