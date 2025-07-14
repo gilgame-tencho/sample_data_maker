@@ -2,18 +2,23 @@
 const param = {
   common: {
     count: 100,
-    codepends_list : ['nentuki', 'class']
+    codepends_list : ['nentuki','nen', 'class']
   },
   column: {
     nendo: {
       type: "year",
-      min: 2020,
-      max: 2020 + 11,
+      start: 2020,
+      end: 2020 + 11,
     },
     nentuki: {
       type: "nentuki_order",
       start: '2020/04',
-      end: '2024/03',
+      end: '2022/03',
+    },
+    nen: {
+      type: "year_order",
+      start: 2020,
+      end: 2020 + 3,
     },
     sid: {
       type: "decimal_order",

@@ -28,12 +28,14 @@ param = {
 
 ## common
 共通パラメータを設定します。
+※必須項目です。
 
 ### count
 生成するデータ件数を指定します。
 
 ### codepends_list
 複数項目で組み合わせ順次生成する際に利用します。
+※codepends_listで採用する場合、culumn定義の順序と合わせる必要があります
 
 ```
 codepends_list : ['column1', 'column2',]
@@ -100,8 +102,15 @@ def: max 10**10 ~ 10**6 + 0.1234
 年の項目です。
 
 ＜追加パラメータ＞
-・max
-・min
+・start
+・end
+
+### type : year_order
+指定範囲の年で順次出力します。
+
+＜追加パラメータ＞
+・start
+・end
 
 ### type : nentuki
 文字列表記の年月の項目です。
