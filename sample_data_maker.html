@@ -96,10 +96,10 @@ function create_csv(){
   function dateFormat(date, format){
     let result= '';
     let ds = getDateParam(date);
-    if(format == 'yyyymm'){
+    if(format === 'yyyymm'){
       result = `${ds.yyyy}${ds.mm}`;
     }else{
-      result = `${ds.yyyy}-${ds.mm}-${ds.ds} ${ds.hh}:${ds.mi}:${ds.ss}`;
+      result = `${ds.yyyy}-${ds.mm}-${ds.dd} ${ds.hh}:${ds.mi}:${ds.ss}`;
     }
     return result;
   }
@@ -115,7 +115,7 @@ function create_csv(){
     let randomTime = start + Math.random() * (end - start);
     let date = new Date(randomTime);
 
-    return dateFormat(date);
+    return dateFormat(date, format);
   }
 
   function getNextMonthDate(date) {
