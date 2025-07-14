@@ -10,7 +10,7 @@ const param = {
       max: 2020 + 11,
     },
     nentuki: {
-      type: "nentuki",
+      type: "nentuki_order",
       start: '2020/04',
       end: '2024/03',
     },

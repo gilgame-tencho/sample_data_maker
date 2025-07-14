@@ -82,6 +82,28 @@ function create_csv(){
     return result
   }
 
+  function getDateParam(date){
+    let parses = {}
+    parses.yyyy = date.getFullYear();
+    parses.mm = String(date.getMonth() + 1).padStart(2, '0');
+    parses.dd = String(date.getDate()).padStart(2, '0');
+    parses.hh = String(date.getHours()).padStart(2, '0');
+    parses.mi = String(date.getMinutes()).padStart(2, '0');
+    parses.ss = String(date.getSeconds()).padStart(2, '0');
+    return parses;
+  }
+
+  function dateFormat(date, format){
+    let result= '';
+    let ds = getDateParam(date);
+    if(format == 'yyyymm'){
+      result = `${ds.yyyy}${ds.mm}`;
+    }else{
+      result = `${ds.yyyy}-${ds.mm}-${ds.ds} ${ds.hh}:${ds.mi}:${ds.ss}`;
+    }
+    return result;
+  }
+
   function getRandomDateTime(startDateTime, endDateTime, format='yyyymmddhhMMss') {
     let start = new Date(startDateTime).getTime();
     let end = new Date(endDateTime).getTime();
@@ -92,23 +114,16 @@ function create_csv(){
 
     let randomTime = start + Math.random() * (end - start);
     let date = new Date(randomTime);
-    let result= '';
 
-    if(format == 'yyyymm'){
-      let yyyy = date.getFullYear();
-      let mm = String(date.getMonth() + 1).padStart(2, '0');
-      result = `${yyyy}${mm}`;
-    }else{
-      let yyyy = date.getFullYear();
-      let mm = String(date.getMonth() + 1).padStart(2, '0');
-      let dd = String(date.getDate()).padStart(2, '0');
-      let hh = String(date.getHours()).padStart(2, '0');
-      let mi = String(date.getMinutes()).padStart(2, '0');
-      let ss = String(date.getSeconds()).padStart(2, '0');
-      result = `${yyyy}-${mm}-${dd} ${hh}:${mi}:${ss}`;
-    }
-    return result;
+    return dateFormat(date);
   }
+
+  function getNextMonthDate(date) {
+  const nextMonth = new Date(date);
+  nextMonth.setMonth(nextMonth.getMonth() + 1);
+  // 翌月に「同じ日」が存在しない場合（例: 1月31日 → 2月は28日 or 29日）には、自動的に月末になる
+  return nextMonth;
+}
 
   // ###         ################################
   // ### Main    ################################
@@ -118,13 +133,10 @@ function create_csv(){
   let orders = [];
   let orderid = 0;
   header.forEach((key)=>{
-    if(
-      param.column[key] &&
-      (
-      param.column[key].type === 'nentuki_order' ||
-      param.column[key].type === 'decimal_order'
-      )
-    ){
+    if(!param.column[key]){
+      return;
+    }
+    if(param.column[key].type === 'decimal_order'){
       param.column[key].orderid = orderid;
       let start = 0;
       if(param.column[key].start){
@@ -134,8 +146,22 @@ function create_csv(){
 
       orderid += 1;
     }
+
+    if(param.column[key].type === 'nentuki_order'){
+      param.column[key].orderid = orderid;
+
+      console.log('header');
+      let count_date = new Date(param.column[key].start);
+      orders.push({start: param.column[key].start, count_date: count_date});
+      param.column[key].start_date = new Date(param.column[key].start);
+      param.column[key].end_date = new Date(param.column[key].end);
+
+      console.log(orders[param.column[key].orderid]);
+
+      orderid += 1;
+    }
   });
-  header.forEach
+  // header.forEach
 
   // ## generate: main data
   for(let i=0; i<count; i++){
@@ -181,6 +207,20 @@ function create_csv(){
           // ### 
           }else if(param.column[key].type === 'nentuki'){
               rs = getRandomDateTime(param.column[key].start + '/01', param.column[key].end + '/01', 'yyyymm');
+
+          // ### 年月 order
+          // ### 
+          }else if(param.column[key].type === 'nentuki_order'){
+            let date = orders[param.column[key].orderid].count_date;
+            rs = dateFormat(date,'yyyymm');
+
+            let next_month_date = getNextMonthDate(date);
+
+            if(next_month_date > param.column[key].end_date){
+              orders[param.column[key].orderid].count_date = param.column[key].start_date;
+            }else{
+              orders[param.column[key].orderid].count_date = next_month_date;
+            }
 
           // ### 日付
           // ### 
