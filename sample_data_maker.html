@@ -12,7 +12,7 @@ function create_csv(){
   // ### 基本パラメータ ###
 
   // 生成レコード件数 count
-  const count = 100;
+  const GCount = param.common.count;
 
   // データバリエーション種類数
   const variation  = 1200;
@@ -27,7 +27,7 @@ function create_csv(){
   const deci_max = 1 * 10 ** 10;
 
   //ファイル名の指定
-  const file_name   = `test_${count}.csv`;
+  const file_name   = `test_${GCount}.csv`;
 
   const chars = {
     han : ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X',],
@@ -138,7 +138,8 @@ function create_csv(){
     }
     if(
       param.column[key].type === 'decimal_order' ||
-      param.column[key].type === 'list_order'
+      param.column[key].type === 'list_order' ||
+      param.column[key].type === 'year_order'
     ){
       param.column[key].orderid = orderid;
       let start = 0;
@@ -181,6 +182,10 @@ function create_csv(){
 
   function codependChek(key){
     let i = codepends.list.indexOf(key);
+    if(i < 0){
+      // check対象外
+      return true;
+    }
     let flg = codepends.counter[i] == 1;
     if(flg && i > 0){
       codepends.counter[i] = 0;
@@ -199,7 +204,7 @@ function create_csv(){
   }
 
   // ## generate: main data
-  for(let i=0; i<count; i++){
+  for(let i=0; i<GCount; i++){
       let row = [];
       header.forEach((key)=>{
           let rs;
@@ -236,7 +241,24 @@ function create_csv(){
           // ### year
           // ### 
           }else if(param.column[key].type === 'year'){
-            rs = String(random(param.column[key].min, param.column[key].max))
+            rs = String(random(param.column[key].start, param.column[key].end))
+
+          // ### year_order
+          // ### 
+          }else if(param.column[key].type === 'year_order'){
+            let count_up = 1;
+            if(param.column[key].count_up){
+              count_up = param.column[key].count_up;
+            }
+            rs = orders[param.column[key].orderid].count;
+
+            if(codependChek(key)){
+              orders[param.column[key].orderid].count += count_up;
+              if(param.column[key].end && param.column[key].end < orders[param.column[key].orderid].count){
+                orders[param.column[key].orderid].count = param.column[key].start;
+                carryForward(key);
+              }
+            }
 
           // ### 年月
           // ### 
