@@ -1,3 +1,4 @@
 package-lock.json
 *.xlsx
 node_modules/
+params/*.js
