@@ -77,6 +77,12 @@ const param = {
       max: 100,
       min: 10
     },
+    sp_date: {
+      type: "datetime",
+      start: "2024/01/01",
+      end: "2024/06/30",
+      format: "yyyy/mm/dd",
+    },
     update_date: {
       type: "datetime",
       start: "2024-01-01T00:00:00",
