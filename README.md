@@ -137,6 +137,7 @@ yyyy/mmで指定してください。
 ＜追加パラメータ＞
 ・start
 ・end
+・format
 
 ### type : head_string
 ヘッダ付きランダム文字列を生成します。

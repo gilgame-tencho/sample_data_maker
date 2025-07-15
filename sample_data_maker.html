@@ -34,7 +34,9 @@ function create_csv(){
     zen : ['あ','い','う','え','お','か','き','く','け','こ','さ','し','す','せ','そ','た','ち','つ','て','と','な','に','ぬ','ね','の','は','ひ','ふ','へ','ほ','ま','み','む','め','も','ら','り','る','れ','ろ','わ','を','ん','子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥','甲','乙','丙','丁','戊','己','庚','辛','壬','癸','臨','兵','闘','者','皆','陣','列','在','前',],
     mat : ['0','1','2','3','4','5','6','7','8','9'],
     han_mat : ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X',],
+    han_mat2 : ['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x',],
   }
+
 
   // ### Program param, and functions. ###
   let header = Object.keys(param.column);
@@ -98,6 +100,8 @@ function create_csv(){
     let ds = getDateParam(date);
     if(format === 'yyyymm'){
       result = `${ds.yyyy}${ds.mm}`;
+    }else if(format === 'yyyy/mm/dd'){
+      result = `${ds.yyyy}/${ds.mm}/${ds.dd}`;
     }else{
       result = `${ds.yyyy}-${ds.mm}-${ds.dd} ${ds.hh}:${ds.mi}:${ds.ss}`;
     }
@@ -286,7 +290,11 @@ function create_csv(){
           // ### 日付
           // ### 
           }else if(param.column[key].type === 'datetime'){
-            rs = getRandomDateTime(param.column[key].start, param.column[key].end);
+            let format = 'no format';
+            if(param.column[key].format){
+              format = param.column[key].format
+            }
+            rs = getRandomDateTime(param.column[key].start, param.column[key].end, format);
 
           // ### head_string
           // ### 
