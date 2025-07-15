@@ -44,12 +44,12 @@ const param = {
     kokyaku_no: {
       type: "varchar",
       num: 13,
-      strtype: "han",
+      strtype: "mat",
     },
     kokyaku_mei: {
       type: "varchar",
       num: 30,
-      strtype: "zen",
+      strtype: "han_mat2",
     },
     type_a: {
       type: "select",
