@@ -166,6 +166,8 @@ yyyy/mmで指定してください。
 ＜追加パラメータ＞
 select: ["a", "b", "c"]
 任意の選択肢を設定し、選択肢の中からランダムで選択されます。
+・master: hoge_master
+指定されたマスターから選択します。
 
 ### type : static
 固定の値を設定します。
@@ -179,6 +181,8 @@ static: "aaa"
 
 ＜追加パラメータ＞
 ・list: ["a", "b", "c"]
+・master: hoge_master
+指定されたマスターから選択します。
 
 ・sort: desk　※未実装
 
