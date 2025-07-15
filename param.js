@@ -59,6 +59,10 @@ const param = {
       type: "static",
       static: "KOTEI"
     },
+    type_c: {
+      type: "select",
+      master: "hoge_master"
+    },
     plan_flg: {
       type: "varchar",
       num: 2,

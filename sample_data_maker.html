@@ -5,6 +5,7 @@
     </body>
 <script src="masters.js"></script>
 <script src="param.js"></script>
+<!-- <script src="params/masters.js"></script> -->
 <!-- <script src="params/param.js"></script> -->
 
 <script>
@@ -332,7 +333,12 @@ function create_csv(){
           // ### 任意選択肢
           // ### 
           }else if(param.column[key].type === 'select'){
-            let sel = param.column[key].select;
+            let sel = [];
+            if(param.column[key].select){
+              sel = param.column[key].select;
+            }else if(param.column[key].master){
+              sel = masters[param.column[key].master];
+            }
             rs = sel[random(0, sel.length-1)];
 
           // ### 固定
