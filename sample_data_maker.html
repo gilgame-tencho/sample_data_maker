@@ -72,16 +72,21 @@ function create_csv(){
 
   function random_string(char_type, count){
     let result = ''
-    if(char_type === 'han'){
-      for(let j=0; j<count; j++){
-          result += chars.han[random(0, chars.han.length-1)];
-      }
-    }else{
-      // zen-kaku.
-      for(let j=0; j<count; j++){
-          result += chars.zen[random(0, chars.zen.length-1)];
-      }
+    for(let j=0; j<count; j++){
+      let index = random(0, chars[char_type].length-1);
+      result += chars[char_type][index];
     }
+
+    // if(char_type === 'han'){
+    //   for(let j=0; j<count; j++){
+    //       result += chars.han[random(0, chars.han.length-1)];
+    //   }
+    // }else{
+    //   // zen-kaku.
+    //   for(let j=0; j<count; j++){
+    //       result += chars.zen[random(0, chars.zen.length-1)];
+    //   }
+    // }
     return result
   }
 
