@@ -354,7 +354,12 @@ function create_csv(){
           // ### 
           }else if(param.column[key].type === 'list_order'){
             let index = orders[param.column[key].orderid].count;
-            let list = param.column[key].list;
+            let list = [];
+            if(param.column[key].list){
+              list = param.column[key].list;
+            }else if(param.column[key].master){
+              list = masters[param.column[key].master];
+            }
             // let index = list_counter % list.length;
             rs = list[index];
 
