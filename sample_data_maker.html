@@ -29,7 +29,10 @@ function create_csv(){
   const deci_max = 1 * 10 ** 10;
 
   //ファイル名の指定
-  const file_name   = `test_${GCount}.csv`;
+  let file_name   = `test_${GCount}.csv`;
+  if(param.common.name){
+    file_name = `${param.common.name}_${GCount}.csv`
+  }
 
   const chars = {
     han : ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X',],
