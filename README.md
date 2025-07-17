@@ -59,6 +59,10 @@ codepends_list : ['column1', 'column2',]
 codepends_list : ['y', 'x',] //Yが１桁目、Xが２桁目扱いとなる
 ```
 
+### No
+No : true
+先頭にNo（通番）を付与する場合に設定する。
+
 ## culumn
 
 カラム項目とその設定内容を指定します。

@@ -42,7 +42,9 @@ function create_csv(){
 
   // ### Program param, and functions. ###
   let header = Object.keys(param.column);
-  header.unshift('No');
+  if(param.common.No){
+    header.unshift('No');
+  }
   console.log(header.join(','));
   // [coution] No column is no body and no object.
   let data = [];
