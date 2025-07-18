@@ -25,7 +25,7 @@ function create_csv(){
 
   const department_tags = ['事業部','部','センター','グループ','チーム','室','課'];
 
-  const deci_min = 1 * 10 ** 6;
+  const deci_min = 0;
   const deci_max = 1 * 10 ** 10;
 
   //ファイル名の指定
@@ -231,10 +231,10 @@ function create_csv(){
             let local_max = deci_max;
             let local_min = deci_min;
             let local_point = 0;
-            if(param.column[key].max && param.column[key].max > 0){
+            if(param.column[key].max){
               local_max = param.column[key].max;
             }
-            if(param.column[key].min && param.column[key].min > 0){
+            if(param.column[key].min){
               local_min = param.column[key].min;
             }
             if(param.column[key].point && param.column[key].point > 0){
