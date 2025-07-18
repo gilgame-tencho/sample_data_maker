@@ -1,8 +1,10 @@
 
 const param = {
   common: {
+    name : "sample_data",
     count: 100,
-    codepends_list : ['nentuki','nen', 'class']
+    codepends_list : ['nentuki','nen', 'class'],
+    // No : true,
   },
   column: {
     nendo: {
